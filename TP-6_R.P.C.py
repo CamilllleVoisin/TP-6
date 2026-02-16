@@ -174,7 +174,6 @@ class GameView(arcade.View):
     def on_mouse_press(self, x, y, button, key_modifiers):
         if self.rock_sprite.collides_with_point((x, y)):
             self.game_state = GameState.ROUND_ACTIVE
-            self.rock_sprite = arcade.Sprite("assets/srock-attack.png")
             print("Clicked rock!")
             self.player_attack_type = AttackType.ROCK
             ComputerAttack = rd.randint(0, 2)
