@@ -9,7 +9,7 @@ import arcade
 import random as rd
 
 from game_state import GameState
-from attack_animation import AttackType
+from Attacks import AttackType
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -53,10 +53,12 @@ class GameView(arcade.View):
         self.computer_sprite.position = (1000, 350)
         self.rock_sprite = arcade.Sprite("assets/srock.png", 1.55)
         self.paper_sprite = arcade.Sprite("assets/spaper.png", 1.35)
+        self.cissors_sprite = arcade.Sprite("assets/scissors.png", 1.14)
         self.scissors_sprite = arcade.Sprite("assets/scissors.png", 1.14)
         self.random_sprite = arcade.Sprite("assets/random.png")
         self.rock_sprite.position = (168, 230)
         self.paper_sprite.position = (320, 200)
+        self.cissors_sprite.position = (462, 200)
         self.scissors_sprite.position = (462, 200)
         self.random_sprite.position = (1000, 195)
         self.players_list = arcade.SpriteList()
@@ -67,6 +69,7 @@ class GameView(arcade.View):
         self.computer_attack_type = AttackType.nothing
         self.hands_list.append(self.rock_sprite)
         self.hands_list.append(self.paper_sprite)
+        self.hands_list.append(self.cissors_sprite)
         self.hands_list.append(self.scissors_sprite)
         self.hands_list.append(self.random_sprite)
         self.player_point = 0
@@ -97,6 +100,17 @@ class GameView(arcade.View):
         arcade.draw_text("Le Pointage de l'ordinateur est :", 800, 90, arcade.color.CYAN, 20)
         arcade.draw_text(self.player_point, 510, 90, arcade.color.CYAN, 30)
         arcade.draw_text(self.computer_point, 1140, 90, arcade.color.CYAN, 20)
+        if self.game_state == GameState.NOT_STARTED:
+            pass
+        elif self.game_state == GameState.ROUND_ACTIVE:
+            pass
+        elif self.game_state == GameState.ROUND_DONE:
+            if self.computer_attack_type == AttackType.ROCK:
+                self.rock_sprite.center_x = 600
+                self.rock_sprite.center_y = 600
+
+            pass
+
         if self.player_point >= 3:
             arcade.draw_text("VICTOIRE DU JOUEUR", 400, 400, arcade.color.GREEN, 45)
         elif self.computer_point >= 3:
@@ -109,53 +123,54 @@ class GameView(arcade.View):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        if self.game_state == GameState.ROUND_ACTIVE:
-            if self.player_attack_type == self.computer_attack_type:
-                print("Égalité")
+        if self.game_state != GameState.ROUND_ACTIVE:
+            return
+
+        if self.player_attack_type == self.computer_attack_type:
+            print("Égalité")
+            self.game_state = GameState.ROUND_DONE
+        elif self.player_attack_type == AttackType.ROCK:
+            if self.computer_attack_type == AttackType.PAPER:
+                self.computer_point += 1
+                print(self.computer_point)
+                print("CV")
                 self.game_state = GameState.ROUND_DONE
-            elif self.player_attack_type == AttackType.ROCK:
-                if self.computer_attack_type == AttackType.PAPER:
-                    self.computer_point += 1
-                    print(self.computer_point)
-                    print("CV")
-                    self.game_state = GameState.ROUND_DONE
-            elif self.player_attack_type == AttackType.PAPER:
-                if self.computer_attack_type == AttackType.SCISSORS:
-                    self.computer_point += 1
-                    print(self.computer_point)
-                    print("CV")
-                    self.game_state = GameState.ROUND_DONE
-            elif self.player_attack_type == AttackType.SCISSORS:
-                if self.computer_attack_type == AttackType.ROCK:
-                    self.computer_point += 1
-                    print(self.computer_point)
-                    print("CV")
-                    self.game_state = GameState.ROUND_DONE
-            if self.player_attack_type == AttackType.PAPER:
-                if self.computer_attack_type == AttackType.ROCK:
-                    self.player_point += 1
-                    print(self.player_point)
-                    print("PV")
-                    self.game_state = GameState.ROUND_DONE
-            if self.player_attack_type == AttackType.SCISSORS:
-                if self.computer_attack_type == AttackType.PAPER:
-                    self.player_point += 1
-                    print(self.player_point)
-                    print("PV")
-                    self.game_state = GameState.ROUND_DONE
-            if self.player_attack_type == AttackType.ROCK:
-                if self.computer_attack_type == AttackType.SCISSORS:
-                    self.player_point += 1
-                    print(self.player_point)
-                    print("PV")
-                    self.game_state = GameState.ROUND_DONE
-            elif self.player_point >= 3:
-                self.game_state = GameState.GAME_OVER
-                print("VICTOIRE JOUEUR")
-            elif self.computer_point >= 3:
-                self.game_state = GameState.GAME_OVER
-                print("VICTOIRE ORDI")
-        self.clear()
+        elif self.player_attack_type == AttackType.PAPER:
+            if self.computer_attack_type == AttackType.SCISSORS:
+                self.computer_point += 1
+                print(self.computer_point)
+                print("CV")
+                self.game_state = GameState.ROUND_DONE
+        elif self.player_attack_type == AttackType.SCISSORS:
+            if self.computer_attack_type == AttackType.ROCK:
+                self.computer_point += 1
+                print(self.computer_point)
+                print("CV")
+                self.game_state = GameState.ROUND_DONE
+        if self.player_attack_type == AttackType.PAPER:
+            if self.computer_attack_type == AttackType.ROCK:
+                self.player_point += 1
+                print(self.player_point)
+                print("PV")
+                self.game_state = GameState.ROUND_DONE
+        if self.player_attack_type == AttackType.SCISSORS:
+            if self.computer_attack_type == AttackType.PAPER:
+                self.player_point += 1
+                print(self.player_point)
+                print("PV")
+                self.game_state = GameState.ROUND_DONE
+        if self.player_attack_type == AttackType.ROCK:
+            if self.computer_attack_type == AttackType.SCISSORS:
+                self.player_point += 1
+                print(self.player_point)
+                print("PV")
+                self.game_state = GameState.ROUND_DONE
+        elif self.player_point >= 3:
+            self.game_state = GameState.GAME_OVER
+            print("VICTOIRE JOUEUR")
+        elif self.computer_point >= 3:
+            self.game_state = GameState.GAME_OVER
+            print("VICTOIRE ORDI")
 
 
     def on_key_press(self, key, key_modifiers):
@@ -168,12 +183,24 @@ class GameView(arcade.View):
         state = 0
         if key == arcade.key.SPACE:
             print("SPACE DUDE!!!!")
+            if self.game_state == GameState.NOT_STARTED:
+                self.game_state == GameState.ROUND_ACTIVE
+                print("ACTIVE")
+            elif self.player_point == 1:
+                self.game_state == GameState.ROUND_DONE
+            elif self.computer_point == 1:
+                self.game_state == GameState.ROUND_DONE
             self.game_state = GameState.ROUND_ACTIVE
 
 
     def on_mouse_press(self, x, y, button, key_modifiers):
+        """
+        Called when the user presses a mouse button.
+        """
+        pass
         if self.rock_sprite.collides_with_point((x, y)):
             self.game_state = GameState.ROUND_ACTIVE
+            self.rock_sprite = arcade.Sprite("assets/srock-attack.png")
             print("Clicked rock!")
             self.player_attack_type = AttackType.ROCK
             ComputerAttack = rd.randint(0, 2)
