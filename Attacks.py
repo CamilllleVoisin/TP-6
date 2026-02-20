@@ -6,4 +6,3 @@ class AttackType(Enum):
     SCISSORS = 2
     nothing = 3
 
-

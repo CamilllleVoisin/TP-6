@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23aba06e-f1ae-4956-bba5-14233a23d066" name="Changes" comment="Did the logistic of the game">
+    <list default="true" id="23aba06e-f1ae-4956-bba5-14233a23d066" name="Changes" comment="corrected the logistic of the game">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Attacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/Attacks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP-6_R.P.C.py" beforeDir="false" afterPath="$PROJECT_DIR$/TP-6_R.P.C.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -128,12 +129,21 @@
       <option name="project" value="LOCAL" />
       <updated>1771271662517</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="corrected the logistic of the game">
+      <option name="closed" value="true" />
+      <created>1771434596113</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1771434596113</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Did the static graphics of the game" />
     <MESSAGE value="Did the logistic of the game" />
-    <option name="LAST_COMMIT_MESSAGE" value="Did the logistic of the game" />
+    <MESSAGE value="corrected the logistic of the game" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrected the logistic of the game" />
   </component>
 </project>
