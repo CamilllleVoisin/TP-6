@@ -68,6 +68,7 @@ class GameView(arcade.View):
         self.player_point = 0
         self.computer_point = 0
 
+
     def on_draw(self):
         """
         Render the screen.
@@ -116,7 +117,9 @@ class GameView(arcade.View):
                 self.random_sprite = arcade.Sprite("assets/scissors-close.png")
                 self.random_sprite.position = (1000, 195)
                 self.hands_list.append(self.random_sprite)
-            elif self.player_attack_type == AttackType.ROCK:
+        # les attaques du joueur
+        elif self.game_state == GameState.ROUND_ACTIVE:
+            if self.player_attack_type == AttackType.ROCK:
                 self.rock_sprite.remove_from_sprite_lists()
                 self.rock_sprite = arcade.Sprite("assets/srock-attack.png")
                 self.rock_sprite.position = (168, 230)
@@ -124,12 +127,12 @@ class GameView(arcade.View):
             elif self.player_attack_type == AttackType.PAPER:
                 self.paper_sprite.remove_from_sprite_lists()
                 self.paper_sprite = arcade.Sprite("assets/spaper-attack.png")
-                self.paper_sprite.position = (168, 230)
+                self.paper_sprite.position = (320, 200)
                 self.hands_list.append(self.paper_sprite)
             elif self.player_attack_type == AttackType.SCISSORS:
                 self.scissors_sprite.remove_from_sprite_lists()
                 self.scissors_sprite = arcade.Sprite("assets/scissors-close.png")
-                self.scissors_sprite.position = (168, 230)
+                self.scissors_sprite.position = (462, 200)
                 self.hands_list.append(self.scissors_sprite)
         # retour au sprite de base
         elif self.game_state == GameState.ROUND_ACTIVE:
@@ -137,6 +140,7 @@ class GameView(arcade.View):
             self.random_sprite = arcade.Sprite("assets/random.png")
             self.random_sprite.position = (1000, 195)
             self.hands_list.append(self.random_sprite)
+        elif self.game_state == GameState.ROUND_DONE:
             self.rock_sprite.remove_from_sprite_lists()
             self.rock_sprite = arcade.Sprite("assets/srock.png")
             self.rock_sprite.position = (168, 230)
@@ -181,6 +185,7 @@ class GameView(arcade.View):
                 print("Égalité")
                 self.game_state = GameState.ROUND_DONE
             elif self.player_attack_type == AttackType.ROCK:
+                self.rock_sprite = arcade.Sprite("assets/srock-attack.png")
                 if self.computer_attack_type == AttackType.PAPER:
                     self.computer_point += 1
                     print(self.computer_point)
