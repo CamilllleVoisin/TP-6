@@ -9,7 +9,7 @@ import arcade
 import random as rd
 
 from game_state import GameState
-from Attacks import AttackType
+from Attacks import AttackType, AttackAnimation
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -24,6 +24,7 @@ class GameView(arcade.View):
     If you do need a method, delete the 'pass' and replace it
     with your own code. Don't leave 'pass' in this program.
     """
+
 
     def __init__(self):
         super().__init__()
@@ -47,11 +48,14 @@ class GameView(arcade.View):
         self.player_sprite.position = (305, 350)
         self.computer_sprite = arcade.Sprite("assets/compy.png", 1.70)
         self.computer_sprite.position = (1000, 350)
-        self.rock_sprite = arcade.Sprite("assets/srock.png", 1.55)
-        self.paper_sprite = arcade.Sprite("assets/spaper.png", 1.35)
-        self.scissors_sprite = arcade.Sprite("assets/scissors.png", 1.14)
-        self.random_sprite = arcade.Sprite("assets/random.png")
-        self.rock_sprite.position = (168, 230)
+        self.attack_type = AttackType
+
+
+        self.rock_sprite = AttackAnimation(AttackType.ROCK)
+        self.paper_sprite = AttackAnimation(AttackType.PAPER)
+        self.scissors_sprite = AttackAnimation(AttackType.SCISSORS)
+        self.random_sprite = AttackAnimation(AttackType.nothing)
+        self.rock_sprite.position = (145, 198)
         self.paper_sprite.position = (320, 200)
         self.scissors_sprite.position = (462, 200)
         self.random_sprite.position = (1000, 195)
@@ -67,7 +71,6 @@ class GameView(arcade.View):
         self.hands_list.append(self.random_sprite)
         self.player_point = 0
         self.computer_point = 0
-
 
     def on_draw(self):
         """
@@ -100,59 +103,9 @@ class GameView(arcade.View):
         arcade.draw_text(self.computer_point, 1140, 90, arcade.color.CYAN, 20)
         if self.game_state == GameState.NOT_STARTED:
             pass
-        elif self.game_state == GameState.ROUND_DONE:
-            # les sprites d'attaque de l'ordi
-            if self.computer_attack_type == AttackType.ROCK:
-                self.random_sprite.remove_from_sprite_lists()
-                self.random_sprite = arcade.Sprite("assets/srock-attack.png")
-                self.random_sprite.position = (1000, 195)
-                self.hands_list.append(self.random_sprite)
-            elif self.computer_attack_type == AttackType.PAPER:
-                self.random_sprite.remove_from_sprite_lists()
-                self.random_sprite = arcade.Sprite("assets/spaper-attack.png")
-                self.random_sprite.position = (1000, 195)
-                self.hands_list.append(self.random_sprite)
-            elif self.computer_attack_type == AttackType.SCISSORS:
-                self.random_sprite.remove_from_sprite_lists()
-                self.random_sprite = arcade.Sprite("assets/scissors-close.png")
-                self.random_sprite.position = (1000, 195)
-                self.hands_list.append(self.random_sprite)
         # les attaques du joueur
-        elif self.game_state == GameState.ROUND_ACTIVE:
-            if self.player_attack_type == AttackType.ROCK:
-                self.rock_sprite.remove_from_sprite_lists()
-                self.rock_sprite = arcade.Sprite("assets/srock-attack.png")
-                self.rock_sprite.position = (168, 230)
-                self.hands_list.append(self.rock_sprite)
-            elif self.player_attack_type == AttackType.PAPER:
-                self.paper_sprite.remove_from_sprite_lists()
-                self.paper_sprite = arcade.Sprite("assets/spaper-attack.png")
-                self.paper_sprite.position = (320, 200)
-                self.hands_list.append(self.paper_sprite)
-            elif self.player_attack_type == AttackType.SCISSORS:
-                self.scissors_sprite.remove_from_sprite_lists()
-                self.scissors_sprite = arcade.Sprite("assets/scissors-close.png")
-                self.scissors_sprite.position = (462, 200)
-                self.hands_list.append(self.scissors_sprite)
         # retour au sprite de base
-        elif self.game_state == GameState.ROUND_ACTIVE:
-            self.random_sprite.remove_from_sprite_lists()
-            self.random_sprite = arcade.Sprite("assets/random.png")
-            self.random_sprite.position = (1000, 195)
-            self.hands_list.append(self.random_sprite)
-        elif self.game_state == GameState.ROUND_DONE:
-            self.rock_sprite.remove_from_sprite_lists()
-            self.rock_sprite = arcade.Sprite("assets/srock.png")
-            self.rock_sprite.position = (168, 230)
-            self.hands_list.append(self.rock_sprite)
-            self.paper_sprite.remove_from_sprite_lists()
-            self.paper_sprite = arcade.Sprite("assets/spaper.png")
-            self.paper_sprite.position = (320, 200)
-            self.hands_list.append(self.paper_sprite)
-            self.scissors_sprite.remove_from_sprite_lists()
-            self.scissors_sprite = arcade.Sprite("assets/scissors.png")
-            self.scissors_sprite.position = (462, 200)
-            self.hands_list.append(self.scissors_sprite)
+
 
         if self.player_point == 3:
             arcade.draw_text("VICTOIRE DU JOUEUR", 400, 400, arcade.color.GREEN, 45)
@@ -162,12 +115,10 @@ class GameView(arcade.View):
             self.game_state = GameState.GAME_OVER
         # Call draw() on all your sprite lists below
 
-    def on_update(self, delta_time):
-        """
-        All the logic to move, and the game logic goes here.
-        Normally, you'll call update() on the sprite lists that
-        need it.
-        """
+    def on_update(self, delta_time: float = 1 / 60):
+        self.rock_sprite.on_update(delta_time)
+        self.paper_sprite.on_update(delta_time)
+        self.scissors_sprite.on_update(delta_time)
         if self.game_state != GameState.ROUND_ACTIVE:
             return
         if self.game_state == GameState.ROUND_ACTIVE and self.player_attack_choosen:
