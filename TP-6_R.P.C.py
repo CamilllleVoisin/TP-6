@@ -25,7 +25,6 @@ class GameView(arcade.View):
     with your own code. Don't leave 'pass' in this program.
     """
 
-
     def __init__(self):
         super().__init__()
 
@@ -50,11 +49,10 @@ class GameView(arcade.View):
         self.computer_sprite.position = (1000, 350)
         self.attack_type = AttackType
 
-
         self.rock_sprite = AttackAnimation(AttackType.ROCK)
         self.paper_sprite = AttackAnimation(AttackType.PAPER)
         self.scissors_sprite = AttackAnimation(AttackType.SCISSORS)
-        self.random_sprite = AttackAnimation(AttackType.nothing)
+        self.random_sprite = arcade.Sprite("assets/random.png")
         self.rock_sprite.position = (145, 198)
         self.paper_sprite.position = (320, 200)
         self.scissors_sprite.position = (462, 200)
@@ -62,13 +60,16 @@ class GameView(arcade.View):
         self.players_list = arcade.SpriteList()
         self.players_list.append(self.player_sprite)
         self.players_list.append(self.computer_sprite)
-        self.hands_list = arcade.SpriteList()
+        self.rock_list = arcade.SpriteList()
+        self.paper_list = arcade.SpriteList()
+        self.scissors_list = arcade.SpriteList()
+        self.random_list = arcade.SpriteList()
         self.player_attack_type = AttackType.nothing
         self.computer_attack_type = AttackType.nothing
-        self.hands_list.append(self.rock_sprite)
-        self.hands_list.append(self.paper_sprite)
-        self.hands_list.append(self.scissors_sprite)
-        self.hands_list.append(self.random_sprite)
+        self.rock_list.append(self.rock_sprite)
+        self.paper_list.append(self.paper_sprite)
+        self.scissors_list.append(self.scissors_sprite)
+        self.random_list.append(self.random_sprite)
         self.player_point = 0
         self.computer_point = 0
 
@@ -81,13 +82,39 @@ class GameView(arcade.View):
         # the screen to the background color, and erase what we drew last frame.
         self.clear()
         self.players_list.draw()
-        self.hands_list.draw()
+        self.paper_list.draw()
+        self.scissors_list.draw()
+        self.rock_sprite.position = (145, 198)
+        self.rock_list.draw()
+        self.paper_sprite.position = (300, 200)
+        self.paper_list.draw()
+        self.scissors_sprite.position = (462, 200)
+        self.scissors_list.draw()
+        if self.computer_attack_type == AttackType.ROCK:
+            self.rock_sprite.position = (1000, 195)
+            self.rock_list.draw()
+        elif self.computer_attack_type == AttackType.PAPER:
+            self.paper_sprite.position = (1000, 195)
+            self.paper_list.draw()
+        elif self.computer_attack_type == AttackType.SCISSORS:
+            self.scissors_sprite.position = (1000, 195)
+            self.scissors_list.draw()
+        if self.game_state == GameState.ROUND_ACTIVE:
+            self.computer_attack_type = AttackType.nothing
+        elif self.computer_attack_type == AttackType.nothing:
+            if self.game_state == GameState.ROUND_DONE:
+                self.random_sprite.position = (1000, 195)
+                self.random_list.draw()
+            else:
+                self.random_sprite.position = (1000, 195)
+                self.random_list.draw()
+
         arcade.draw_text("Roche, Papier, Ciseaux", 250, 650, arcade.color.BLACK_BEAN, 70)
         if self.game_state == GameState.ROUND_DONE or self.game_state == GameState.NOT_STARTED:
-            arcade.draw_text("Appuyez sur espace pour commencer!", 200, 550, arcade.color.CYAN, 50)
+            arcade.draw_text("Appuyez sur espace pour commencer!", 200, 550, arcade.color.BLUE, 50)
         elif self.game_state == GameState.ROUND_ACTIVE:
-            arcade.draw_text("Appuyez sur une image pour faire une", 185, 550, arcade.color.CYAN, 50)
-            arcade.draw_text("attaque!", 600, 500, arcade.color.CYAN, 50)
+            arcade.draw_text("Appuyez sur une image pour faire une", 185, 550, arcade.color.BLUE, 50)
+            arcade.draw_text("attaque!", 600, 500, arcade.color.BLUE, 50)
         arcade.draw_text("Votre attaque est :", 200, 450, arcade.color.GRAY, 50)
         arcade.draw_text(self.player_attack_type, 700, 450, arcade.color.BLUE_VIOLET, 50)
         left = 70
@@ -99,15 +126,14 @@ class GameView(arcade.View):
             right += 160
         arcade.draw_lrbt_rectangle_outline(926, 1076,
                                            120, 270, arcade.color.DARK_SALMON, 3)
-        arcade.draw_text("Le Pointage du joueur est :", 70, 90, arcade.color.CYAN, 30)
-        arcade.draw_text("Le Pointage de l'ordinateur est :", 800, 90, arcade.color.CYAN, 20)
+        arcade.draw_text("Le Pointage du joueur est :", 70, 90, arcade.color.GREEN, 30)
+        arcade.draw_text("Le Pointage de l'ordinateur est :", 800, 90, arcade.color.RED, 20)
         arcade.draw_text(self.player_point, 510, 90, arcade.color.CYAN, 30)
         arcade.draw_text(self.computer_point, 1140, 90, arcade.color.CYAN, 20)
         if self.game_state == GameState.NOT_STARTED:
             pass
         # les attaques du joueur
         # retour au sprite de base
-
 
         if self.player_point == 3:
             arcade.draw_text("VICTOIRE DU JOUEUR", 400, 400, arcade.color.GREEN, 45)
@@ -124,6 +150,11 @@ class GameView(arcade.View):
         if self.game_state != GameState.ROUND_ACTIVE:
             return
         if self.game_state == GameState.ROUND_ACTIVE and self.player_attack_choosen:
+            if self.random_sprite not in self.random_list:
+                self.random_list.append(self.random_sprite)
+            else:
+                self.random_list.clear()
+                self.random_list.append(self.random_sprite)
             ComputerAttack = rd.randint(0, 2)
             if ComputerAttack == 0:
                 self.computer_attack_type = AttackType.ROCK
@@ -138,7 +169,6 @@ class GameView(arcade.View):
                 print("Égalité")
                 self.game_state = GameState.ROUND_DONE
             elif self.player_attack_type == AttackType.ROCK:
-                self.rock_sprite = arcade.Sprite("assets/srock-attack.png")
                 if self.computer_attack_type == AttackType.PAPER:
                     self.computer_point += 1
                     print(self.computer_point)
@@ -211,7 +241,6 @@ class GameView(arcade.View):
                 self.player_attack_choosen = True
                 self.player_attack_type = AttackType.ROCK
 
-
             elif self.paper_sprite.collides_with_point((x, y)):
                 print("Clicked paper!")
                 self.player_attack_choosen = True
@@ -221,9 +250,6 @@ class GameView(arcade.View):
                 print("Clicked scissors!")
                 self.player_attack_choosen = True
                 self.player_attack_type = AttackType.SCISSORS
-
-            else:
-                return
 
 
 def main():

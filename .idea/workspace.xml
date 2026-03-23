@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="23aba06e-f1ae-4956-bba5-14233a23d066" name="Changes" comment="Made the random tile sprite change when the bot's attack is selected and started doing the same for the player; the sprite now appears but won't dissapear when needed.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Attacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/Attacks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP-6_R.P.C.py" beforeDir="false" afterPath="$PROJECT_DIR$/TP-6_R.P.C.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773778817749</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Made the random tile sprite change when the bot's attack is selected and started doing the same for the player; the sprite now appears but won't dissapear when needed.">
+      <option name="closed" value="true" />
+      <created>1774292066725</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1774292066725</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -172,5 +179,16 @@
     <MESSAGE value="Made the random tile sprite change when the bot's attack is selected and started doing the same for the player" />
     <MESSAGE value="Made the random tile sprite change when the bot's attack is selected and started doing the same for the player; the sprite now appears but won't dissapear when needed." />
     <option name="LAST_COMMIT_MESSAGE" value="Made the random tile sprite change when the bot's attack is selected and started doing the same for the player; the sprite now appears but won't dissapear when needed." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
