@@ -88,6 +88,8 @@ class GameView(arcade.View):
         elif self.game_state == GameState.ROUND_ACTIVE:
             arcade.draw_text("Appuyez sur une image pour faire une", 185, 550, arcade.color.CYAN, 50)
             arcade.draw_text("attaque!", 600, 500, arcade.color.CYAN, 50)
+        arcade.draw_text("Votre attaque est :", 200, 450, arcade.color.GRAY, 50)
+        arcade.draw_text(self.player_attack_type, 700, 450, arcade.color.BLUE_VIOLET, 50)
         left = 70
         right = 220
         for i in range(3):
@@ -115,7 +117,7 @@ class GameView(arcade.View):
             self.game_state = GameState.GAME_OVER
         # Call draw() on all your sprite lists below
 
-    def on_update(self, delta_time: float = 1 / 60):
+    def on_update(self, delta_time):
         self.rock_sprite.on_update(delta_time)
         self.paper_sprite.on_update(delta_time)
         self.scissors_sprite.on_update(delta_time)
@@ -205,21 +207,21 @@ class GameView(arcade.View):
             return
         elif self.game_state == GameState.ROUND_ACTIVE:
             if self.rock_sprite.collides_with_point((x, y)):
-
                 print("Clicked rock!")
                 self.player_attack_choosen = True
                 self.player_attack_type = AttackType.ROCK
+
+
             elif self.paper_sprite.collides_with_point((x, y)):
-                self.game_state = GameState.ROUND_ACTIVE
                 print("Clicked paper!")
                 self.player_attack_choosen = True
                 self.player_attack_type = AttackType.PAPER
 
             elif self.scissors_sprite.collides_with_point((x, y)):
-                self.game_state = GameState.ROUND_ACTIVE
                 print("Clicked scissors!")
                 self.player_attack_choosen = True
                 self.player_attack_type = AttackType.SCISSORS
+
             else:
                 return
 
