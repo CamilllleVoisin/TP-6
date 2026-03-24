@@ -37,7 +37,19 @@ class GameView(arcade.View):
         self.game_state = GameState.NOT_STARTED
         self.player_attack_choosen = False
         self.computer_attack_type = 0
-
+        self.attack_type = AttackType
+        self.rock_sprite = AttackAnimation(AttackType.ROCK)
+        self.paper_sprite = AttackAnimation(AttackType.PAPER)
+        self.scissors_sprite = AttackAnimation(AttackType.SCISSORS)
+        self.random_sprite = arcade.Sprite("assets/random.png")
+        self.rock_list = arcade.SpriteList()
+        self.paper_list = arcade.SpriteList()
+        self.scissors_list = arcade.SpriteList()
+        self.random_list = arcade.SpriteList()
+        self.player_attack_type = AttackType.nothing
+        self.bot_win = False
+        self.player_win = False
+        self.egalite = False
         self.reset()
 
     def reset(self):
@@ -47,12 +59,6 @@ class GameView(arcade.View):
         self.player_sprite.position = (305, 350)
         self.computer_sprite = arcade.Sprite("assets/compy.png", 1.70)
         self.computer_sprite.position = (1000, 350)
-        self.attack_type = AttackType
-
-        self.rock_sprite = AttackAnimation(AttackType.ROCK)
-        self.paper_sprite = AttackAnimation(AttackType.PAPER)
-        self.scissors_sprite = AttackAnimation(AttackType.SCISSORS)
-        self.random_sprite = arcade.Sprite("assets/random.png")
         self.rock_sprite.position = (145, 198)
         self.paper_sprite.position = (320, 200)
         self.scissors_sprite.position = (462, 200)
@@ -60,11 +66,6 @@ class GameView(arcade.View):
         self.players_list = arcade.SpriteList()
         self.players_list.append(self.player_sprite)
         self.players_list.append(self.computer_sprite)
-        self.rock_list = arcade.SpriteList()
-        self.paper_list = arcade.SpriteList()
-        self.scissors_list = arcade.SpriteList()
-        self.random_list = arcade.SpriteList()
-        self.player_attack_type = AttackType.nothing
         self.computer_attack_type = AttackType.nothing
         self.rock_list.append(self.rock_sprite)
         self.paper_list.append(self.paper_sprite)
@@ -72,9 +73,6 @@ class GameView(arcade.View):
         self.random_list.append(self.random_sprite)
         self.player_point = 0
         self.computer_point = 0
-        self.bot_win = False
-        self.player_win = False
-        self.egalite = False
 
     def on_draw(self):
         """
@@ -135,8 +133,6 @@ class GameView(arcade.View):
                 arcade.draw_text("Le joueur a gagné le round", 550, 125, arcade.color.LIGHT_GREEN, 25)
             elif self.egalite:
                 arcade.draw_text("Égalité", 550, 125, arcade.color.BLUE, 25)
-        else:
-            pass
 
         left = 70
         right = 220
@@ -176,14 +172,14 @@ class GameView(arcade.View):
             else:
                 self.random_list.clear()
                 self.random_list.append(self.random_sprite)
-            ComputerAttack = rd.randint(0, 2)
-            if ComputerAttack == 0:
+            computer_attack = rd.randint(0, 2)
+            if computer_attack == 0:
                 self.computer_attack_type = AttackType.ROCK
                 print(self.computer_attack_type)
-            elif ComputerAttack == 1:
+            elif computer_attack == 1:
                 self.computer_attack_type = AttackType.PAPER
                 print(self.computer_attack_type)
-            elif ComputerAttack == 2:
+            elif computer_attack == 2:
                 self.computer_attack_type = AttackType.SCISSORS
                 print(self.computer_attack_type)
             if self.player_attack_type == self.computer_attack_type:
@@ -218,14 +214,14 @@ class GameView(arcade.View):
                     print(self.player_point)
                     print("PV")
                     self.game_state = GameState.ROUND_DONE
-            if self.player_attack_type == AttackType.SCISSORS:
+            elif self.player_attack_type == AttackType.SCISSORS:
                 if self.computer_attack_type == AttackType.PAPER:
                     self.player_point += 1
                     self.player_win = True
                     print(self.player_point)
                     print("PV")
                     self.game_state = GameState.ROUND_DONE
-            if self.player_attack_type == AttackType.ROCK:
+            elif self.player_attack_type == AttackType.ROCK:
                 if self.computer_attack_type == AttackType.SCISSORS:
                     self.player_point += 1
                     self.player_win = True
@@ -248,7 +244,6 @@ class GameView(arcade.View):
         For a full list of keys, see:
         https://api.arcade.academy/en/latest/arcade.key.html
         """
-        #state = 0
         if key == arcade.key.SPACE:
             if self.game_state == GameState.NOT_STARTED:
                 self.game_state = GameState.ROUND_ACTIVE
@@ -259,6 +254,9 @@ class GameView(arcade.View):
             elif self.game_state == GameState.ROUND_DONE:
                 self.game_state = GameState.ROUND_ACTIVE
                 self.player_attack_choosen = False
+                self.bot_win = False
+                self.player_win = False
+                self.egalite = False
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         """
