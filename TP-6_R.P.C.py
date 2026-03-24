@@ -72,6 +72,9 @@ class GameView(arcade.View):
         self.random_list.append(self.random_sprite)
         self.player_point = 0
         self.computer_point = 0
+        self.bot_win = False
+        self.player_win = False
+        self.egalite = False
 
     def on_draw(self):
         """
@@ -115,8 +118,26 @@ class GameView(arcade.View):
         elif self.game_state == GameState.ROUND_ACTIVE:
             arcade.draw_text("Appuyez sur une image pour faire une", 185, 550, arcade.color.BLUE, 50)
             arcade.draw_text("attaque!", 600, 500, arcade.color.BLUE, 50)
-        arcade.draw_text("Votre attaque est :", 200, 450, arcade.color.GRAY, 50)
-        arcade.draw_text(self.player_attack_type, 700, 450, arcade.color.BLUE_VIOLET, 50)
+        arcade.draw_text("Votre attaque est :", 300, 460, arcade.color.GRAY, 50)
+        if self.player_attack_type == AttackType.ROCK:
+            arcade.draw_text("Caillou", 800, 460, arcade.color.BLUE_VIOLET, 50)
+        elif self.player_attack_type == AttackType.PAPER:
+            arcade.draw_text("Papier", 800, 460, arcade.color.BLUE_VIOLET, 50)
+        elif self.player_attack_type == AttackType.SCISSORS:
+            arcade.draw_text("Ciseaux", 800, 460, arcade.color.BLUE_VIOLET, 50)
+        elif self.game_state == GameState.ROUND_ACTIVE:
+            arcade.draw_text("", 80, 460, arcade.color.BLUE_VIOLET, 50)
+
+        if self.game_state == GameState.ROUND_DONE:
+            if self.bot_win:
+                arcade.draw_text("Le bot a gagné le round", 550, 125, arcade.color.RED, 25)
+            elif self.player_win:
+                arcade.draw_text("Le joueur a gagné le round", 550, 125, arcade.color.LIGHT_GREEN, 25)
+            elif self.egalite:
+                arcade.draw_text("Égalité", 550, 125, arcade.color.BLUE, 25)
+        else:
+            pass
+
         left = 70
         right = 220
         for i in range(3):
@@ -167,40 +188,47 @@ class GameView(arcade.View):
                 print(self.computer_attack_type)
             if self.player_attack_type == self.computer_attack_type:
                 print("Égalité")
+                self.egalite = True
                 self.game_state = GameState.ROUND_DONE
             elif self.player_attack_type == AttackType.ROCK:
                 if self.computer_attack_type == AttackType.PAPER:
                     self.computer_point += 1
+                    self.bot_win = True
                     print(self.computer_point)
                     print("CV")
                     self.game_state = GameState.ROUND_DONE
             elif self.player_attack_type == AttackType.PAPER:
                 if self.computer_attack_type == AttackType.SCISSORS:
                     self.computer_point += 1
+                    self.bot_win = True
                     print(self.computer_point)
                     print("CV")
                     self.game_state = GameState.ROUND_DONE
             elif self.player_attack_type == AttackType.SCISSORS:
                 if self.computer_attack_type == AttackType.ROCK:
                     self.computer_point += 1
+                    self.bot_win = True
                     print(self.computer_point)
                     print("CV")
                     self.game_state = GameState.ROUND_DONE
             if self.player_attack_type == AttackType.PAPER:
                 if self.computer_attack_type == AttackType.ROCK:
                     self.player_point += 1
+                    self.player_win = True
                     print(self.player_point)
                     print("PV")
                     self.game_state = GameState.ROUND_DONE
             if self.player_attack_type == AttackType.SCISSORS:
                 if self.computer_attack_type == AttackType.PAPER:
                     self.player_point += 1
+                    self.player_win = True
                     print(self.player_point)
                     print("PV")
                     self.game_state = GameState.ROUND_DONE
             if self.player_attack_type == AttackType.ROCK:
                 if self.computer_attack_type == AttackType.SCISSORS:
                     self.player_point += 1
+                    self.player_win = True
                     print(self.player_point)
                     print("PV")
                     self.game_state = GameState.ROUND_DONE
@@ -220,10 +248,13 @@ class GameView(arcade.View):
         For a full list of keys, see:
         https://api.arcade.academy/en/latest/arcade.key.html
         """
-        state = 0
+        #state = 0
         if key == arcade.key.SPACE:
             if self.game_state == GameState.NOT_STARTED:
                 self.game_state = GameState.ROUND_ACTIVE
+                self.bot_win = False
+                self.player_win = False
+                self.egalite = False
                 print("ACTIVE")
             elif self.game_state == GameState.ROUND_DONE:
                 self.game_state = GameState.ROUND_ACTIVE

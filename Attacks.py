@@ -13,7 +13,7 @@ class AttackAnimation(arcade.Sprite):
 
     def __init__(self, attack_type):
         super().__init__()
-        self.animation_update_time = 1.0 / AttackAnimation.ANIMATION_SPEED
+        self.animation_update_time = 2.0 / AttackAnimation.ANIMATION_SPEED
         self.time_since_last_swap = 0.0
         self.attack_type = attack_type
         if self.attack_type == AttackType.ROCK:
