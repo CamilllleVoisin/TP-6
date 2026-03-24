@@ -2,7 +2,7 @@
 TP6
 Par Camille Voisin 404
 Commencé le 13 février 2026
-finit le :
+finit le 24 mars 2026:
 """
 
 import arcade
