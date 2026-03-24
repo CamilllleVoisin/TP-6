@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23aba06e-f1ae-4956-bba5-14233a23d066" name="Changes" comment="Did the animations, added some feedback about the action you do, fixing a few bugs">
-      <change beforePath="$PROJECT_DIR$/TP-6_R.P.C.py" beforeDir="false" afterPath="$PROJECT_DIR$/TP-6_R.P.C.py" afterDir="false" />
+    <list default="true" id="23aba06e-f1ae-4956-bba5-14233a23d066" name="Changes" comment="Did the animations, added some feedback about the action you do, fixed every bugs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +184,23 @@
       <option name="project" value="LOCAL" />
       <updated>1774376685712</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Did the animations, added some feedback about the action you do, fixing a few bugs">
+      <option name="closed" value="true" />
+      <created>1774377100115</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1774377100115</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Did the animations, added some feedback about the action you do, fixed every bugs">
+      <option name="closed" value="true" />
+      <created>1774377146102</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1774377146102</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -195,7 +211,8 @@
     <MESSAGE value="Made the random tile sprite change when the bot's attack is selected and started doing the same for the player; the sprite now appears but won't dissapear when needed." />
     <MESSAGE value="Did the animations, fixing a few bugs" />
     <MESSAGE value="Did the animations, added some feedback about the action you do, fixing a few bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Did the animations, added some feedback about the action you do, fixing a few bugs" />
+    <MESSAGE value="Did the animations, added some feedback about the action you do, fixed every bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Did the animations, added some feedback about the action you do, fixed every bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
